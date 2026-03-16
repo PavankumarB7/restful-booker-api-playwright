@@ -14,11 +14,8 @@ test("Update booking successfully", async ({ request }) => {
   const createBody = await createResponse.json();
   const bookingId = createBody.bookingid;
 
-  console.log("Booking ID:", bookingId);
-
   // Generate auth token
   const token = await bookingClient.getAuthToken();
-  console.log("Auth Token:", token);
 
   // Update payload
   const updatedPayload = {
@@ -37,11 +34,9 @@ test("Update booking successfully", async ({ request }) => {
 
   const updateBody = await updateResponse.json();
 
-  console.log("Updated Response:", updateBody);
-
   expect(updateBody).toMatchObject({
-  firstname: "Jane",
-  lastname: payload.lastname,
-  totalprice: payload.totalprice
+    firstname: "Jane",
+    lastname: payload.lastname,
+    totalprice: payload.totalprice,
   });
 });

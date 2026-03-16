@@ -59,7 +59,12 @@ export class BookingClient {
   async getAuthToken() {
     const response = await this.createToken();
     const body = await response.json();
-    console.log("Auth Response:", body);
     return body.token;
+  }
+
+  async createTokenWithCredentials(username, password) {
+    return this.request.post("/auth", {
+      data: { username, password },
+    });
   }
 }

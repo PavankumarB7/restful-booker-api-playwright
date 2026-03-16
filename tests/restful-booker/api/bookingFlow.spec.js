@@ -14,8 +14,6 @@ test("Complete booking lifecycle", async ({ request }) => {
   const createBody = await createResponse.json();
   const bookingId = createBody.bookingid;
 
-  console.log("Booking created:", bookingId);
-
   // Verify created booking
   const getResponse = await bookingClient.getBooking(bookingId);
   expect(getResponse.status()).toBe(200);

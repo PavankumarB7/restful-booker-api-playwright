@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { BookingClient } from "../../../api/restful-booker/bookingClient";
 
-test("Partial update with invalid booking ID should return 405 or 404", async ({
+test("Partial update with invalid booking ID should return 405", async ({
   request,
 }) => {
   const bookingClient = new BookingClient(request);
@@ -20,5 +20,6 @@ test("Partial update with invalid booking ID should return 405 or 404", async ({
     patchPayload,
   );
 
-  expect(response.status()).toBeGreaterThanOrEqual(400);
+  // Restful Booker returns 405 for PATCH on non-existent ID
+  expect(response.status()).toBe(405);
 });

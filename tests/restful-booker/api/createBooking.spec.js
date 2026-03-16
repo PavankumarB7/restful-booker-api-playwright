@@ -12,7 +12,6 @@ test("Create booking successfully", async ({ request }) => {
   expect(response.status()).toBe(200);
 
   const body = await response.json();
-  console.log("Response Body:", body);
 
   expect(body.bookingid).toBeDefined();
   expect(body.booking.firstname).toBe(payload.firstname);

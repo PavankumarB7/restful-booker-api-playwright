@@ -16,14 +16,10 @@ test("Delete booking successfully", async ({ request }) => {
   const createBody = await createResponse.json();
   const bookingId = createBody.bookingid;
 
-  console.log("Booking ID:", bookingId);
-
   // Delete booking
   const deleteResponse = await bookingClient.deleteBooking(bookingId, token);
 
   expect(deleteResponse.status()).toBe(201);
-
-  console.log("Delete Response:", await deleteResponse.text());
 
   // Verify booking deleted
   const getResponse = await bookingClient.getBooking(bookingId);

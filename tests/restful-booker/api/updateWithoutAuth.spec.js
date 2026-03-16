@@ -11,17 +11,21 @@ test("Update booking without authentication should fail", async ({
 
   // Create booking
   const createResponse = await bookingClient.createBooking(payload);
+  expect(createResponse.status()).toBe(200);
+
   const bookingId = (await createResponse.json()).bookingid;
 
-  // Attempt update without token
+  // Attempt update with empty token
   const updatedPayload = {
     ...payload,
     firstname: "UnauthorizedUser",
   };
 
-  const response = await request.put(`/booking/${bookingId}`, {
-    data: updatedPayload,
-  });
+  const response = await bookingClient.updateBooking(
+    bookingId,
+    updatedPayload,
+    "", // empty token = no auth
+  );
 
   expect(response.status()).toBe(403);
 });

@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { BookingClient } from "../../../api/restful-booker/bookingClient";
 
-test("Delete invalid booking ID should return error", async ({ request }) => {
+test("Delete invalid booking ID should return 405", async ({ request }) => {
   const bookingClient = new BookingClient(request);
 
   const token = await bookingClient.getAuthToken();
@@ -10,5 +10,6 @@ test("Delete invalid booking ID should return error", async ({ request }) => {
 
   const response = await bookingClient.deleteBooking(invalidBookingId, token);
 
-  expect(response.status()).toBeGreaterThanOrEqual(400);
+  // Restful Booker returns 405 for DELETE on non-existent ID
+  expect(response.status()).toBe(405);
 });
