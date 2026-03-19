@@ -1,12 +1,10 @@
-import { test, expect } from "@playwright/test";
-import { BookingClient } from "../../../api/restful-booker/bookingClient";
+import { test, expect } from "../../../fixtures/bookingFixtures";
 import { createBookingPayload } from "../../../test-data/restful-booker/bookingPayload";
+import { assertUnauthorized } from "../../../api/restful-booker/bookingAssertions";
 
 test("Update booking without authentication should fail", async ({
-  request,
+  bookingClient,
 }) => {
-  const bookingClient = new BookingClient(request);
-
   const payload = createBookingPayload();
 
   // Create booking
@@ -27,5 +25,5 @@ test("Update booking without authentication should fail", async ({
     "", // empty token = no auth
   );
 
-  expect(response.status()).toBe(403);
+  assertUnauthorized(response.status());
 });

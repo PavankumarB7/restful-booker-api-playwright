@@ -1,15 +1,9 @@
-import { test, expect } from "@playwright/test";
-import { BookingClient } from "../../../api/restful-booker/bookingClient";
+import { test, expect } from "../../../fixtures/bookingFixtures";
 import { createBookingPayload } from "../../../test-data/restful-booker/bookingPayload";
 import { faker } from "@faker-js/faker";
 
-test("Partial update booking firstname successfully", async ({ request }) => {
-  const bookingClient = new BookingClient(request);
-
-  // Step 1: create auth token
-  const token = await bookingClient.getAuthToken();
-
-  // Step 2: create booking
+test("Partial update booking firstname successfully", async ({ bookingClient, authToken }) => {
+  // Step 1: create booking
   const payload = createBookingPayload();
   const createResponse = await bookingClient.createBooking(payload);
 
@@ -18,17 +12,17 @@ test("Partial update booking firstname successfully", async ({ request }) => {
   const createBody = await createResponse.json();
   const bookingId = createBody.bookingid;
 
-  // Step 3: partial update payload
+  // Step 2: partial update payload
   const updatedName = faker.person.firstName();
 
   const patchPayload = {
     firstname: updatedName,
   };
 
-  // Step 4: call PATCH API
+  // Step 3: call PATCH API
   const patchResponse = await bookingClient.partialUpdateBooking(
     bookingId,
-    token,
+    authToken,
     patchPayload,
   );
 
@@ -36,7 +30,7 @@ test("Partial update booking firstname successfully", async ({ request }) => {
 
   const patchBody = await patchResponse.json();
 
-  // Step 5: assertions
+  // Step 4: assertions
   expect(patchBody.firstname).toBe(updatedName);
   expect(patchBody.lastname).toBe(payload.lastname);
 });

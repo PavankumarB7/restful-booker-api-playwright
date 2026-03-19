@@ -1,10 +1,8 @@
-import { test, expect } from "@playwright/test";
-import { BookingClient } from "../../../api/restful-booker/bookingClient";
+import { test, expect } from "../../../fixtures/bookingFixtures";
 import { createBookingPayload } from "../../../test-data/restful-booker/bookingPayload";
+import { assertBookingDetails } from "../../../api/restful-booker/bookingAssertions";
 
-test("Complete booking lifecycle", async ({ request }) => {
-  const bookingClient = new BookingClient(request);
-
+test("Complete booking lifecycle", async ({ bookingClient, authToken }) => {
   const payload = createBookingPayload();
 
   // Create booking
@@ -19,10 +17,7 @@ test("Complete booking lifecycle", async ({ request }) => {
   expect(getResponse.status()).toBe(200);
 
   const bookingData = await getResponse.json();
-  expect(bookingData.firstname).toBe(payload.firstname);
-
-  // Generate token
-  const token = await bookingClient.getAuthToken();
+  assertBookingDetails(bookingData, payload);
 
   // Update booking
   const updatedPayload = {
@@ -33,7 +28,7 @@ test("Complete booking lifecycle", async ({ request }) => {
   const updateResponse = await bookingClient.updateBooking(
     bookingId,
     updatedPayload,
-    token,
+    authToken,
   );
 
   expect(updateResponse.status()).toBe(200);
@@ -45,7 +40,7 @@ test("Complete booking lifecycle", async ({ request }) => {
   expect(updatedData.firstname).toBe("LifecycleUser");
 
   // Delete booking
-  const deleteResponse = await bookingClient.deleteBooking(bookingId, token);
+  const deleteResponse = await bookingClient.deleteBooking(bookingId, authToken);
   expect(deleteResponse.status()).toBe(201);
 
   // Verify deletion

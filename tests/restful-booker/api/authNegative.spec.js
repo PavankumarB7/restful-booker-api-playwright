@@ -1,9 +1,6 @@
-import { test, expect } from "@playwright/test";
-import { BookingClient } from "../../../api/restful-booker/bookingClient";
+import { test, expect } from "../../../fixtures/bookingFixtures";
 
-test("Auth fails with invalid credentials", async ({ request }) => {
-  const bookingClient = new BookingClient(request);
-
+test("Auth fails with invalid credentials", async ({ bookingClient }) => {
   const response = await bookingClient.createTokenWithCredentials(
     "wrongUser",
     "wrongPassword",

@@ -1,10 +1,7 @@
-import { test, expect } from "@playwright/test";
-import { BookingClient } from "../../../api/restful-booker/bookingClient";
+import { test, expect } from "../../../fixtures/bookingFixtures";
 import { createBookingPayload } from "../../../test-data/restful-booker/bookingPayload";
 
-test("Update booking successfully", async ({ request }) => {
-  const bookingClient = new BookingClient(request);
-
+test("Update booking successfully", async ({ bookingClient, authToken }) => {
   const payload = createBookingPayload();
 
   // Create booking
@@ -13,9 +10,6 @@ test("Update booking successfully", async ({ request }) => {
 
   const createBody = await createResponse.json();
   const bookingId = createBody.bookingid;
-
-  // Generate auth token
-  const token = await bookingClient.getAuthToken();
 
   // Update payload
   const updatedPayload = {
@@ -27,7 +21,7 @@ test("Update booking successfully", async ({ request }) => {
   const updateResponse = await bookingClient.updateBooking(
     bookingId,
     updatedPayload,
-    token,
+    authToken,
   );
 
   expect(updateResponse.status()).toBe(200);

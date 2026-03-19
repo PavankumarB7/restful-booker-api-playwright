@@ -1,22 +1,19 @@
-import { test, expect } from "@playwright/test";
-import { BookingClient } from "../../../api/restful-booker/bookingClient";
+import { test } from "../../../fixtures/bookingFixtures";
 import { createBookingPayload } from "../../../test-data/restful-booker/bookingPayload";
+import { assertNotFound } from "../../../api/restful-booker/bookingAssertions";
 
 test("Update non-existent booking ID should return 404", async ({
-  request,
+  bookingClient,
+  authToken,
 }) => {
-  const bookingClient = new BookingClient(request);
-
-  const token = await bookingClient.getAuthToken();
-
   const invalidBookingId = 999999;
   const payload = createBookingPayload();
 
   const response = await bookingClient.updateBooking(
     invalidBookingId,
     payload,
-    token,
+    authToken,
   );
 
-  expect(response.status()).toBe(405);
+  assertNotFound(response.status());
 });

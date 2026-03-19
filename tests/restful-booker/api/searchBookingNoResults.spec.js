@@ -1,11 +1,8 @@
-import { test, expect } from "@playwright/test";
-import { BookingClient } from "../../../api/restful-booker/bookingClient";
+import { test, expect } from "../../../fixtures/bookingFixtures";
 
 test("Search booking by firstname with no matching results", async ({
-  request,
+  bookingClient,
 }) => {
-  const bookingClient = new BookingClient(request);
-
   const response = await bookingClient.searchBooking({
     firstname: "NonExistingUserXYZ",
   });

@@ -1,12 +1,10 @@
-import { test, expect } from "@playwright/test";
-import { BookingClient } from "../../../api/restful-booker/bookingClient";
+import { test, expect } from "../../../fixtures/bookingFixtures";
+import { assertBookingNotFound } from "../../../api/restful-booker/bookingAssertions";
 
-test("Get booking with invalid ID returns 404", async ({ request }) => {
-  const bookingClient = new BookingClient(request);
-
+test("Get booking with invalid ID returns 404", async ({ bookingClient }) => {
   const invalidBookingId = 999999;
 
   const response = await bookingClient.getBooking(invalidBookingId);
 
-  expect(response.status()).toBe(404);
+  assertBookingNotFound(response.status());
 });

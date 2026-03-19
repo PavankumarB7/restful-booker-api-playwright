@@ -1,10 +1,8 @@
-import { test, expect } from "@playwright/test";
-import { BookingClient } from "../../../api/restful-booker/bookingClient";
+import { test, expect } from "../../../fixtures/bookingFixtures";
 import { createBookingPayload } from "../../../test-data/restful-booker/bookingPayload";
+import { assertBookingDetails } from "../../../api/restful-booker/bookingAssertions";
 
-test("Get booking by ID successfully", async ({ request }) => {
-  const bookingClient = new BookingClient(request);
-
+test("Get booking by ID successfully", async ({ bookingClient }) => {
   const payload = createBookingPayload();
 
   // Create booking first
@@ -22,6 +20,5 @@ test("Get booking by ID successfully", async ({ request }) => {
 
   const getBody = await getResponse.json();
 
-  expect(getBody.firstname).toBe(payload.firstname);
-  expect(getBody.lastname).toBe(payload.lastname);
+  assertBookingDetails(getBody, payload);
 });

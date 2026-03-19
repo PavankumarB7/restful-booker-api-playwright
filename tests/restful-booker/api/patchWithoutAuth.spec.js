@@ -1,12 +1,10 @@
-import { test, expect } from "@playwright/test";
-import { BookingClient } from "../../../api/restful-booker/bookingClient";
+import { test, expect } from "../../../fixtures/bookingFixtures";
 import { createBookingPayload } from "../../../test-data/restful-booker/bookingPayload";
+import { assertUnauthorized } from "../../../api/restful-booker/bookingAssertions";
 
 test("Partial update without authentication should fail", async ({
-  request,
+  bookingClient,
 }) => {
-  const bookingClient = new BookingClient(request);
-
   // Create a booking to patch
   const payload = createBookingPayload();
   const createResponse = await bookingClient.createBooking(payload);
@@ -25,5 +23,5 @@ test("Partial update without authentication should fail", async ({
     patchPayload,
   );
 
-  expect(response.status()).toBe(403);
+  assertUnauthorized(response.status());
 });

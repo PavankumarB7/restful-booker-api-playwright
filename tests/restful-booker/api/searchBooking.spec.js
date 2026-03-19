@@ -1,12 +1,9 @@
-import { test, expect } from "@playwright/test";
-import { BookingClient } from "../../../api/restful-booker/bookingClient";
+import { test, expect } from "../../../fixtures/bookingFixtures";
 import { createBookingPayload } from "../../../test-data/restful-booker/bookingPayload";
 
 test("Search booking by firstname returns matching results", async ({
-  request,
+  bookingClient,
 }) => {
-  const bookingClient = new BookingClient(request);
-
   // Create a booking with a known name first
   const payload = createBookingPayload();
   const createResponse = await bookingClient.createBooking(payload);

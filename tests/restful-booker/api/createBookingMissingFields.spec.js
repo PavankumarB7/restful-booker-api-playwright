@@ -1,12 +1,9 @@
-import { test, expect } from "@playwright/test";
-import { BookingClient } from "../../../api/restful-booker/bookingClient";
+import { test, expect } from "../../../fixtures/bookingFixtures";
 import { createBookingPayload } from "../../../test-data/restful-booker/bookingPayload";
 
 test("Create booking without firstname should return 500", async ({
-  request,
+  bookingClient,
 }) => {
-  const bookingClient = new BookingClient(request);
-
   const payload = createBookingPayload();
   delete payload.firstname;
 
@@ -16,10 +13,8 @@ test("Create booking without firstname should return 500", async ({
 });
 
 test("Create booking without lastname should return 500", async ({
-  request,
+  bookingClient,
 }) => {
-  const bookingClient = new BookingClient(request);
-
   const payload = createBookingPayload();
   delete payload.lastname;
 
@@ -29,10 +24,8 @@ test("Create booking without lastname should return 500", async ({
 });
 
 test("Create booking without totalprice should return 500", async ({
-  request,
+  bookingClient,
 }) => {
-  const bookingClient = new BookingClient(request);
-
   const payload = createBookingPayload();
   delete payload.totalprice;
 

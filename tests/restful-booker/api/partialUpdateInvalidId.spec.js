@@ -1,13 +1,10 @@
-import { test, expect } from "@playwright/test";
-import { BookingClient } from "../../../api/restful-booker/bookingClient";
+import { test } from "../../../fixtures/bookingFixtures";
+import { assertNotFound } from "../../../api/restful-booker/bookingAssertions";
 
 test("Partial update with invalid booking ID should return 405", async ({
-  request,
+  bookingClient,
+  authToken,
 }) => {
-  const bookingClient = new BookingClient(request);
-
-  const token = await bookingClient.getAuthToken();
-
   const invalidBookingId = 999999;
 
   const patchPayload = {
@@ -16,10 +13,10 @@ test("Partial update with invalid booking ID should return 405", async ({
 
   const response = await bookingClient.partialUpdateBooking(
     invalidBookingId,
-    token,
+    authToken,
     patchPayload,
   );
 
   // Restful Booker returns 405 for PATCH on non-existent ID
-  expect(response.status()).toBe(405);
+  assertNotFound(response.status());
 });

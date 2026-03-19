@@ -1,15 +1,11 @@
-import { test, expect } from "@playwright/test";
-import { BookingClient } from "../../../api/restful-booker/bookingClient";
+import { test } from "../../../fixtures/bookingFixtures";
+import { assertNotFound } from "../../../api/restful-booker/bookingAssertions";
 
-test("Delete invalid booking ID should return 405", async ({ request }) => {
-  const bookingClient = new BookingClient(request);
-
-  const token = await bookingClient.getAuthToken();
-
+test("Delete invalid booking ID should return 405", async ({ bookingClient, authToken }) => {
   const invalidBookingId = 999999;
 
-  const response = await bookingClient.deleteBooking(invalidBookingId, token);
+  const response = await bookingClient.deleteBooking(invalidBookingId, authToken);
 
   // Restful Booker returns 405 for DELETE on non-existent ID
-  expect(response.status()).toBe(405);
+  assertNotFound(response.status());
 });

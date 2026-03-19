@@ -1,12 +1,7 @@
-import { test, expect } from "@playwright/test";
-import { BookingClient } from "../../../api/restful-booker/bookingClient";
+import { test, expect } from "../../../fixtures/bookingFixtures";
 import { createBookingPayload } from "../../../test-data/restful-booker/bookingPayload";
 
-test("Delete booking successfully", async ({ request }) => {
-  const bookingClient = new BookingClient(request);
-
-  // Generate auth token
-  const token = await bookingClient.getAuthToken();
+test("Delete booking successfully", async ({ bookingClient, authToken }) => {
   const payload = createBookingPayload();
 
   // Create booking
@@ -17,7 +12,7 @@ test("Delete booking successfully", async ({ request }) => {
   const bookingId = createBody.bookingid;
 
   // Delete booking
-  const deleteResponse = await bookingClient.deleteBooking(bookingId, token);
+  const deleteResponse = await bookingClient.deleteBooking(bookingId, authToken);
 
   expect(deleteResponse.status()).toBe(201);
 
