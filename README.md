@@ -60,8 +60,8 @@ Create a `.env` file in the root:
 
 ```
 BASE_URL=https://restful-booker.herokuapp.com
-BOOKING_USERNAME=admin
-BOOKING_PASSWORD=password123
+BOOKING_USERNAME=your_username
+BOOKING_PASSWORD=your_password
 ```
 
 ---
