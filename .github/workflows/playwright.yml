@@ -12,6 +12,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    environment: testing
 
     steps:
       - uses: actions/checkout@v4
@@ -28,7 +29,6 @@ jobs:
 
       - name: Run Restful Booker API tests
         run: npx playwright test tests/restful-booker
-        continue-on-error: true
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
           BOOKING_USERNAME: ${{ secrets.BOOKING_USERNAME }}
