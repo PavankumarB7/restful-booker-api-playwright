@@ -4,6 +4,14 @@ Automated API test suite for the [Restful Booker](https://restful-booker.herokua
 
 ---
 
+## 🚨 Key Findings (Bugs Identified)
+
+- Invalid date range accepted without validation (checkout before checkin returns 200)
+- POST /booking returns 200 instead of 201 (REST standard violation)
+- Invalid booking ID returns 405 instead of 404 on PUT, PATCH, DELETE
+
+---
+
 ## Tech Stack
 
 - [Playwright](https://playwright.dev/) — API testing framework
@@ -28,7 +36,8 @@ playwright-automation-framework/
 │       └── bookingPayload.js      # Dynamic booking payload using Faker.js
 └── tests/
     └── restful-booker/
-        └── api/                   # All 17 test spec files
+        ├── api/                   # All 17 test spec files
+        └── docs/                  # Test documentation
 ```
 
 ---
@@ -114,6 +123,24 @@ npx playwright test tests/restful-booker --reporter=html
 
 ---
 
+## 🧠 Test Design Approach
+
+- Designed test scenarios covering positive, negative, security and edge cases
+- Focused on API validation, authentication and data integrity
+- Automated critical API flows using Playwright
+- Identified real backend issues during testing
+
+---
+
+## 📄 Test Documentation
+
+- [Test Scenarios](./tests/restful-booker/docs/api-test-scenarios.md)
+- [Test Cases](./tests/restful-booker/docs/api-test-cases.md)
+- [Bug Reports](./tests/restful-booker/docs/bug-reports.md)
+- [Test Coverage](./tests/restful-booker/docs/api-coverage.md)
+
+---
+
 ## Framework Design Decisions
 
 ### BookingClient (`bookingClient.js`)
@@ -148,16 +175,3 @@ assertBookingDetails(body, payload);
 ```
 
 ---
-
-## Known API Bugs
-
-These are bugs identified in the Restful Booker API during test development:
-
-**1. Invalid date range accepted**
-`POST /booking` with `checkout` before `checkin` returns `200 OK` instead of rejecting the request. The API does not validate date ranges.
-
-**2. POST /booking returns 200 instead of 201**
-Creating a new resource should return `201 Created` per REST standards. This API returns `200 OK`.
-
-**3. Invalid booking ID returns 405 instead of 404**
-`PUT`, `PATCH`, and `DELETE` requests on a non-existent booking ID return `405 Method Not Allowed` instead of `404 Not Found`.
