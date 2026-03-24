@@ -1,5 +1,5 @@
 {
-  "name": "playwright-automation-framework",
+  "name": "restful-booker-api-playwright",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {},
