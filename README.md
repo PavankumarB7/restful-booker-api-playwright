@@ -132,6 +132,28 @@ npx playwright test tests/restful-booker --reporter=html
 
 ---
 
+## CI/CD
+
+This project uses GitHub Actions to automatically run all 17 API tests.
+
+**Pipeline triggers:**
+
+- Every push to `main`
+- Every pull request to `main`
+- Manual trigger via `workflow_dispatch`
+- Scheduled daily run at 03:30 UTC (cron)
+
+**Pipeline steps:**
+
+- Install dependencies
+- Install Playwright browsers
+- Run all Restful Booker API tests
+- Upload test results as artifacts
+
+View pipeline runs under the **Actions** tab in the repository.
+
+---
+
 ## 📄 Test Documentation
 
 - [Test Scenarios](./tests/restful-booker/docs/api-test-scenarios.md)
